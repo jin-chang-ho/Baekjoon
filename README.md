@@ -1,2 +1,1 @@
-# jin-chang-ho-boot-baekjoon
-This is a auto push repository for Baekjoon Online Judge created with [BaekjoonHub](https://github.com/BaekjoonHub/BaekjoonHub).
+# 부트 캠프에서 백준 문제 풀이
