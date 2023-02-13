@@ -1,17 +1,19 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.HashSet;
-import java.util.Scanner;
 import java.util.Set;
 
 public class Main {
 
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
 		
-		int N = sc.nextInt();
+		int N = Integer.parseInt(br.readLine());
 		
 		String[] arr = new String[N];
 		for(int i = 0; i < N; i++) {
-			arr[i] = sc.next();
+			arr[i] = br.readLine();
 		}
 		
 		int answer = 1;
@@ -28,8 +30,7 @@ public class Main {
 			
 			answer += 1;
 		}
-		System.out.println(answer);
-		
-		sc.close();
+		sb.append(answer);
+		System.out.println(sb.toString());
 	}
 }
