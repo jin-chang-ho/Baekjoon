@@ -37,6 +37,7 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
+		StringBuilder sb = new StringBuilder();
 		
 		int N = Integer.parseInt(st.nextToken());
 		int M = Integer.parseInt(st.nextToken());
@@ -59,11 +60,14 @@ public class Main {
 			}
 		}
 		
+		
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < M; j++) {
-				System.out.print(arr[i][j] + " ");
+				sb.append(arr[i][j] + " ");
 			}
-			System.out.println();
+			sb.append("\n");
 		}
+		
+		System.out.println(sb.toString());
 	}
 }
