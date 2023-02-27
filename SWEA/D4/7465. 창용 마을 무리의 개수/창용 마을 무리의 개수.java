@@ -49,11 +49,7 @@ class Solution
 				int first = Integer.parseInt(st.nextToken());
 				int second = Integer.parseInt(st.nextToken());
 				
-				if (first < second) {
-					union(first, second);
-				} else {
-					union(second, first);
-				}
+				union(first, second);
 			}
 			
 			int count = 0;
