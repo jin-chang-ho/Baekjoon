@@ -5,58 +5,81 @@ import java.util.PriorityQueue;
 
 class Solution
 {
-	public static void main(String[] args) throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
+	static int N;
+	static int arr[][];
+	
+	// 상, 하, 좌, 우
+	static int dx[] = {0, 0, -1, 1};
+	static int dy[] = {-1, 1, 0, 0};
+	
+	private static int dijkstra() {
+		int[][] d = new int[N][N];
+		boolean[][] visited = new boolean[N][N];
 		
-		int TC = Integer.parseInt(br.readLine());
-		
-		// 상, 하, 좌, 우
-		int[] dx = {0, 0, -1, 1};
-		int[] dy = {-1, 1, 0, 0};
-		
-		for (int tc = 1; tc <= TC; tc++) {
-			int N = Integer.parseInt(br.readLine());
-			
-			int[][] arr = new int[N][N];
-			for (int i = 0; i < N; i++) {
-				String line = br.readLine();
-				
-				for (int j = 0; j < N; j++) {
-					arr[i][j] = line.charAt(j) - '0';
-				}
-			}
-			
-			PriorityQueue<int[]> pq = new PriorityQueue<>(new Comparator<int[]>() { // x, y 저장
-				@Override
-				public int compare(int[] arr1, int[] arr2) {
-					return arr1[2] - arr2[2];
-				}
-			});
-			
-			pq.offer(new int[] {0, 0, 0}); 
-			arr[0][0] = -1;
-			
-			while (!pq.isEmpty()) {
-				int[] output = pq.poll();
-				
-				if (output[0] == N - 1 && output[1] == N - 1) {
-					sb.append("#" + tc + " " + output[2] + "\n");
-					break;
-				}
-				
-				for (int i = 0; i < 4; i++) {
-					int cx = output[0] + dx[i];
-					int cy = output[1] + dy[i];
-					
-					if (0 <= cx && cx < N && 0 <= cy && cy < N && arr[cy][cx] != -1) {
-						pq.offer(new int[] {cx, cy, output[2] + arr[cy][cx]});
-						arr[cy][cx] = -1;
-					}
-				}
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++) {
+				d[i][j] = Integer.MAX_VALUE;
 			}
 		}
 		
-		System.out.println(sb.toString());
+		PriorityQueue<int[]> pq = new PriorityQueue<> (new Comparator<int[]>() { // x, y, 비용
+			@Override
+			public int compare(int[] arr1, int[] arr2) {
+				return arr1[2] - arr2[2];
+			}
+		});
+		
+		d[0][0] = 0;
+		pq.offer(new int[] {0, 0, 0});
+		
+		while (!pq.isEmpty()) {
+			int[] output = pq.poll();
+			
+			if (visited[output[1]][output[0]] == true) {
+				continue;
+			}
+			
+			if (output[0] == N - 1 && output[1] == N - 1) {
+				return output[2];
+			}
+			
+			visited[output[1]][output[0]] = true;
+			
+			for (int i = 0; i < 4; i++) {
+				int cx = output[0] + dx[i];
+				int cy = output[1] + dy[i];
+				
+				if (0 <= cx && cx < N && 0 <= cy && cy < N && visited[cy][cx] == false && d[cy][cx] > d[output[1]][output[0]] + arr[output[1]][output[0]]) {
+					d[cy][cx] = d[output[1]][output[0]] + arr[output[1]][output[0]];
+					pq.offer(new int[] {cx, cy, d[cy][cx]});
+				}
+			}	
+		}
+		
+		return -1;
+	}
+	
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+         
+        int TC = Integer.parseInt(br.readLine());
+		
+        for (int tc = 1; tc <= TC; tc++) {
+        	N = Integer.parseInt(br.readLine());
+            
+            arr = new int[N][N];
+            for (int i = 0; i < N; i++) {
+                String line = br.readLine();
+                 
+                for (int j = 0; j < N; j++) {
+                    arr[i][j] = line.charAt(j) - '0';
+                }
+            }
+            
+            sb.append("#" + tc + " " + dijkstra() + "\n");
+        }
+        
+        System.out.println(sb.toString());
 	}
 }
