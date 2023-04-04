@@ -21,9 +21,7 @@ class Solution {
 			int cy = y + dy[i];
 			
 			if (1 <= cx && cx <= C && 1 <= cy && cy <= R && alpha[arr[cy][cx] - 'A'] == false) {
-                alpha[arr[cy][cx] - 'A'] = true;
 				dfs(cx, cy, count + 1);
-				alpha[arr[cy][cx] - 'A'] = false;
 			}
 		}
 		
