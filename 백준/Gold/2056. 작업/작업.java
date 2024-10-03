@@ -1,85 +1,80 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.lang.*;
+import java.io.*;
 
-public class Main {
-	
-	public static void main(String[] args) throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
-		int N = Integer.parseInt(br.readLine());
-		
-		int[] weight = new int[N+1];
-		int[] inDegree = new int[N+1];
-		boolean[][] arr = new boolean[N+1][N+1];
-	
-		for (int i = 1; i <= N; i++) {
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			
-			int tempWeight = Integer.parseInt(st.nextToken());
-			weight[i] = tempWeight;
-			
-			int first = Integer.parseInt(st.nextToken());
-			
-			for (int j = 0; j < first; j++) {
-				int haveFinish = Integer.parseInt(st.nextToken());
-				
-				arr[i][haveFinish] = true;
-			}
-			
-			inDegree[i] = first;
+// The main method must be in a class named "Main".
+class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine());
+
+        boolean[][] arr = new boolean[N+1][N+1];
+        int[] weight = new int[N+1];
+        int[] tp = new int[N+1];
+        
+        for (int i = 1; i <= N; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+
+            int nodeWeight = Integer.parseInt(st.nextToken());
+            int tpNumber = Integer.parseInt(st.nextToken());
+
+            for (int j = 0; j < tpNumber; j++) {
+                int start = Integer.parseInt(st.nextToken());
+                arr[i][start] = true;
+            }
+
+            weight[i] = nodeWeight;
+            tp[i] = tpNumber;
+        }
+
+        int[] dp = new int[N+1];
+        
+        for (int i = 1; i <= N; i++) {
+			dp[i] = weight[i];
 		}
-		
-		int[] D = new int[N+1];
-		
-		for (int i = 1; i <= N; i++) {
-			D[i] = weight[i];
-		}
-		
-		Queue<Integer> queue = new ArrayDeque<>();
-		
-		for (int i = 1; i <= N; i++) {
-			if (inDegree[i] == 0) {
-				queue.offer(i);
-			}
-		}
-		
-		while (!queue.isEmpty()) {
-			Queue<Integer> tempQueue = new ArrayDeque<>();
-			
-			while (!queue.isEmpty()) {
-				tempQueue.offer(queue.poll());
-			}
-			
-			while (!tempQueue.isEmpty()) {
-				int output = tempQueue.poll();
-				
-				for (int i = 1; i <= N; i++) {
-					if (arr[i][output] == true) {
-						inDegree[i]--;
+        
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        
+        for (int i = 1; i <= N; i++) {
+            if (tp[i] == 0) {
+                pq.offer(i);
+            }
+        }
+
+        while (!pq.isEmpty()) {
+            PriorityQueue<Integer> tempPQ = new PriorityQueue<>();
+
+            while (!pq.isEmpty()) {
+                tempPQ.offer(pq.poll());
+            }
+
+            while (!tempPQ.isEmpty()) {
+                int tempIndex = tempPQ.poll();
+
+                for (int i = 1; i <= N; i++) {
+					if (arr[i][tempIndex] == true) {
+						tp[i]--;
 						
-						if (inDegree[i] == 0) {
-							queue.offer(i);
-							
+						if (tp[i] == 0) {
+                            pq.offer(i);
+                            
 							for (int j = 1; j <= N; j++) {
 								if (arr[i][j] == true) {
-									D[i] = Math.max(D[i], D[j] + weight[i]);
+									dp[i] = Math.max(dp[i], dp[j] + weight[i]);
 								}
 							}
 						}
 					}
 				}
-			}
-		}
-		
-		int max = -1;
-		
-		for (int i = 1; i <= N; i++) {
-			max = Math.max(max, D[i]);
-		}
-		
-		System.out.println(max);
-	}
+            }
+        }
+
+        int answer = 0;
+
+        for (int i = 1; i <= N; i++) {
+            answer = Math.max(answer, dp[i]);
+        }
+
+        System.out.println(answer);
+    }
 }
