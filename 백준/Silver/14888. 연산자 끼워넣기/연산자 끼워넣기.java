@@ -12,8 +12,8 @@ public class Main {
 	static int maxValue = Integer.MIN_VALUE;
 	static int minValue = Integer.MAX_VALUE;
 	
-	static void per(int n, int chase) {
-		if (n == N - 1) {
+	static void per(int chase) {
+		if (chase == N - 1) {
 			int firstVal = numArr[0];
 			
 			for (int i = 1; i < N; i++) {
@@ -44,14 +44,20 @@ public class Main {
 			return;
 		}
 		
+		char before = ' ';
 		for (int i = 0; i < N-1; i++) {
 			if (checkArr[i]) {
 				continue;
 			}
 			
+			if (before == opeArr[i]) {
+				continue;
+			}
+			
+			before = opeArr[i];
 			chaseArr[chase] = opeArr[i];
 			checkArr[i] = true;
-			per(n + 1, chase + 1);
+			per(chase + 1);
 			checkArr[i] = false;
 		}
 	}
@@ -93,7 +99,7 @@ public class Main {
 		
 		chaseArr = new char[N-1];
 		checkArr = new boolean[N-1];
-		per(0, 0);
+		per(0);
 		
 		System.out.println(maxValue);
 		System.out.println(minValue);
