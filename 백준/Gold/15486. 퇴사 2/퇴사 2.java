@@ -8,8 +8,8 @@ public class Main {
 		
 		int N = Integer.parseInt(br.readLine());
 		
-		int[] time = new int[N+1];
-		int[] point = new int[N+1];
+		int[] time = new int[N];
+		int[] point = new int[N];
 		
 		for (int i = 0; i < N; i++) {
 			StringTokenizer st = new StringTokenizer(br.readLine());
@@ -20,10 +20,8 @@ public class Main {
 		
 		int[] dp = new int[N+1];
 
-		for (int i = 0; i <= N; i++) {
-			if (i > 0) {
-				dp[i] = Math.max(dp[i], dp[i-1]);
-			}
+		for (int i = 0; i < N; i++) {
+			dp[i+1] = Math.max(dp[i], dp[i+1]);
 			
 			if (i + time[i] <= N) {
 				dp[i + time[i]] = Math.max(dp[i + time[i]], dp[i] + point[i]);
