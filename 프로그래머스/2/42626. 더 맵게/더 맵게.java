@@ -4,20 +4,20 @@ class Solution {
     public int solution(int[] scoville, int K) {
         int answer = -1;
         
-        PriorityQueue<Integer> pq = new PriorityQueue<>(new Comparator<>() {
+        PriorityQueue<Long> pq = new PriorityQueue<>(new Comparator<>() {
             @Override
-            public int compare(Integer i1, Integer i2) {
-                return i1 - i2;
+            public int compare(Long i1, Long i2) {
+                return Long.compare(i1, i2);
             }
         });
         
         for (int sco : scoville) {
-            pq.offer(sco);
+            pq.offer((long)sco);
         }
         
         int count = 0;
         while (pq.size() >= 2) {
-            int first = pq.poll();
+            long first = pq.poll();
             
             if (first >= K) {
                 answer = count;
@@ -26,12 +26,12 @@ class Solution {
             
             count++;
             
-            int second = pq.poll();
+            long second = pq.poll();
             pq.offer(first + (second * 2));
         }
         
         if (count != 0 && pq.size() == 1) {
-            int last = pq.poll();
+            long last = pq.poll();
             if (last >= K) {
                 answer = count;
             }
