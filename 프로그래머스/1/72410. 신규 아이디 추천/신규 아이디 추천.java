@@ -2,33 +2,36 @@ class Solution {
     public String solution(String new_id) {
         String answer = "";
         
-        String first = "";
+        StringBuilder sb = new StringBuilder();
         
         for (char c : new_id.toCharArray()) {
             if ('A' <= c && c <= 'Z') {
-                first += (char)(c - 'A' + 'a');   
+                sb.append((char)(c - 'A' + 'a'));   
             } else {
-                first += c;
+                sb.append(c);
             }
         }
+        
+        String first = sb.toString();
+        sb.setLength(0);
         
         //System.out.println(first);
         
-        String second = "";
-        
         for (char c : first.toCharArray()) {
             if ('a' <= c && c <= 'z') {
-                second += c;
+                sb.append(c);
             } else if ('0' <= c && c <= '9') {
-                second += c;
+                sb.append(c);
             } else if ((c == '-') || (c == '_') || c == '.') {
-                second += c;
+                sb.append(c);
             }
         }
         
+        String second = sb.toString();
+        sb.setLength(0);
+        
         //System.out.println(second);
         
-        String third = "";
         boolean check = false;
         
         for (char c : second.toCharArray()) {
@@ -36,21 +39,22 @@ class Solution {
                 check = true;
             } else {
                 if (check) {
-                    third += '.';  
+                    sb.append('.');  
                 }
                 
                 check = false;
-                third += c;
+                sb.append(c);
             }
         }
         
         if (check) {
-            third += '.';
+            sb.append('.');
         }
         
-        //System.out.println(third);
+        String third = sb.toString();
+        sb.setLength(0);
         
-        String fourth = "";
+        //System.out.println(third);
         
         for (int i = 0; i < third.length(); i++) {
             if (i == 0 || i == third.length() - 1) {
@@ -59,8 +63,11 @@ class Solution {
                 }
             }
             
-            fourth += third.charAt(i);
+            sb.append(third.charAt(i));
         }
+        
+        String fourth = sb.toString();
+        sb.setLength(0);
         
         //System.out.println(fourth);
         
@@ -72,8 +79,6 @@ class Solution {
         
         //System.out.println(fifth);
         
-        String sixth = "";
-        
         for (int i = 0; i < fifth.length(); i++) {
             if (i == 14 && fifth.charAt(i) == '.') {
                 break;
@@ -81,8 +86,11 @@ class Solution {
                 break;
             }
             
-            sixth += fifth.charAt(i);
+            sb.append(fifth.charAt(i));
         }
+        
+        String sixth = sb.toString();
+        sb.setLength(0);
         
         //System.out.println(sixth);
         
